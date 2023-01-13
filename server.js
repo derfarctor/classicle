@@ -42,11 +42,20 @@ app.get('/today/polygon.txt', function (req, res) {
 });
 
 app.get('/previous/polygon.png', function (req, res) {
-    res.sendFile(__dirname + get_previous_filename(".png"));
+    try {
+        res.sendFile(__dirname + get_previous_filename(".png"));
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 app.get('/previous/polygon.txt', function (req, res) {
-    var words = fs.readFileSync("." + get_previous_filename(".txt")).toString().split(os.EOL);
+    try {
+        var words = fs.readFileSync("." + get_previous_filename(".txt")).toString().split(os.EOL);
+    } catch (error) {
+        console.log(error);
+        var words = ["", `An error was encountered: ${error}`];
+    }
     res.end(JSON.stringify({ words: words.slice(1) }));
 });
 
