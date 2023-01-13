@@ -1,5 +1,8 @@
 body {
     background-color: #121213;
+    font-family: 'Roboto Mono', monospace;
+    font-size: large;
+    color: white;
 }
 
 h1 {
@@ -13,8 +16,13 @@ p {
 img {
     max-width: 70%;
     height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.centered {
-    margin: auto;
+ol {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
 }

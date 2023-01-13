@@ -57,19 +57,24 @@ def generate_polygon(min_length=3):
             if current[0] > most_frequent[0]:
                 most_frequent = current
     sub_words = [word for word in sub_words if most_frequent[1] in word]
-    sub_words.sort(key=len, reverse=True)
+    random.shuffle(sub_words)
+    sub_words.sort(key=lambda s: len(s), reverse=True)
     with open(os.path.join(today_dir, "polygon.txt"), "w", encoding="utf-8") as file:
         file.write(most_frequent[1] + "\n")
         file.write(random_long + "\n")
         for word in sub_words:
-            file.write(word + "\n")
+            file.write(word)
+            if word != sub_words[-1]:
+                file.write("\n")
     now = datetime.now()
     previous_polygon_name = f"polygon-{now.day}-{now.month}-{now.year}"
     with open(os.path.join(previous_dir, previous_polygon_name+".txt"), "w", encoding="utf-8") as file:
         file.write(most_frequent[1] + "\n")
         file.write(random_long + "\n")
         for word in sub_words:
-            file.write(word + "\n")
+            file.write(word)
+            if word != sub_words[-1]:
+                file.write("\n")
     sides = len(random_long) - 1
     size = 512
     img = Image.new("RGBA", (size, size))
@@ -79,7 +84,7 @@ def generate_polygon(min_length=3):
     draw.line(outer, fill=None, width=4)
     inner = polygon(sides, size/4 * 3/4, 0, [size/2, size/2])
     inner.append(inner[0])
-    draw.line(inner, fill=None, width=4)
+    draw.polygon(inner, fill="white")
     midpts = []
     for i in range(sides):
         points = [outer[i], inner[i]]
@@ -101,7 +106,8 @@ def generate_polygon(min_length=3):
                             letter_points[i][1] + h/2)
         draw.text(letter_points[i], outer_letters[i], anchor="md", font=font)
     w, h = font.getsize(most_frequent[1])
-    draw.text((size/2, size/2+h/2), most_frequent[1], anchor="md", font=font)
+    draw.text((size/2, size/2+h/2),
+              most_frequent[1], anchor="md", font=font, fill="#121213")
     img.save(os.path.join(today_dir, "polygon.png"))
     img.save(os.path.join(previous_dir, previous_polygon_name+".png"))
 
