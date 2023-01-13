@@ -1,13 +1,19 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const path = require('path');
 const app = express();
+const cors = require("cors");
 
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+const corsOptions = {
+    origin: '*',
+    credentials: true,
+    optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + '/index.html');
