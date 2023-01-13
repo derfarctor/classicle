@@ -1,4 +1,4 @@
-const site_url = "http://127.0.0.1:3000/"
+const site_url = "https://classicle.games/"
 
 window.post = function (url, data) {
     return fetch(site_url + url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
