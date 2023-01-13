@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/derfarctor/classicle/issues"
   },
-  "homepage": "https://github.com/derfarctor/classicle#readme"
+  "homepage": "https://github.com/derfarctor/classicle#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
