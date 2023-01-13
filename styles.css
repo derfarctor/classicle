@@ -1,7 +1,7 @@
 body {
     background-color: #121213;
     font-family: 'Roboto Mono', monospace;
-    font-size: large;
+    font-size: medium;
     color: white;
 }
 
@@ -13,18 +13,35 @@ p {
     color: white;
 }
 
+.fade-out {
+    animation: fadeOut ease 3s 2s forwards;
+}
+
+.not-fade {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
 img {
     max-width: 70%;
     height: auto;
     display: block;
     margin-left: auto;
     margin-right: auto;
-}
-
-ol {
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
+    padding-bottom: 3rem;
 }
 
 form {

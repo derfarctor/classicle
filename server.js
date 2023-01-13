@@ -34,8 +34,8 @@ app.get('/today/polygon.png', function (req, res) {
 
 app.get('/polygon', function (req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    var words = fs.readFileSync("./today/polygon.txt").toString().split(os.EOL).slice(1);
-    res.end(JSON.stringify({ words: words }));
+    var words = fs.readFileSync("./today/polygon.txt").toString().split(os.EOL);
+    res.end(JSON.stringify({ words: words.slice(1), must_include: words[0] }));
 });
 
 app.listen(3000, () => {
