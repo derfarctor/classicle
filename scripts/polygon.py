@@ -7,7 +7,7 @@ from PIL import ImageDraw
 from PIL import ImageFont
 import math
 
-words_file = sys.argv[1]
+resources_dir = sys.argv[1]
 today_dir = sys.argv[2]
 previous_dir = sys.argv[3]
 words = []
@@ -38,14 +38,14 @@ def polygon(sides, radius=1, rotation=0, translation=None):
 
 
 def generate_polygon(min_length=3):
-    with open(words_file) as file:
+    with open(os.path.join(resources_dir, "latinwords.txt")) as file:
         for line in file:
             parts = line.split(":")
             words.append(parts[0])
             if len(parts[0]) > 6 and len(parts[0]) < 9:
                 long_words.append(parts[0])
     most_frequent = [0, ""]
-    while most_frequent[0] < 9:
+    while most_frequent[0] < 13:
         random_long = random.choice(long_words)
         sub_words = [word for word in words if is_sub_word(
             word, random_long, min_length)]
@@ -99,7 +99,8 @@ def generate_polygon(min_length=3):
     outer_letters = list(
         random_long.replace(most_frequent[1], "", 1))
     random.shuffle(outer_letters)
-    font = ImageFont.truetype("robotomono.ttf", int(size/6))
+    font = ImageFont.truetype(os.path.join(
+        resources_dir, "robotomono.ttf"), int(size/6))
     for i in range(len(outer_letters)):
         _, h = font.getsize(outer_letters[i])
         letter_points[i] = (letter_points[i][0],

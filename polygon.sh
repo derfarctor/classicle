@@ -1,0 +1,1 @@
+python3 scripts/polygon.py ${PWD}/resources ${PWD}/today ${PWD}/previous

@@ -34,16 +34,25 @@ p {
     }
 }
 
-
 img {
     max-width: 70%;
     height: auto;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: 3rem;
+    padding-bottom: 1rem;
 }
 
 form {
     display: flex;
+}
+
+ol {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+#yesterdayimg {
+    max-width: 50%;
 }

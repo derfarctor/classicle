@@ -1,5 +1,4 @@
-const site_url = "https://classicle.games/"
-
+const site_url = window.location.href;
 window.post = function (url, data) {
     return fetch(site_url + url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 }
@@ -10,24 +9,74 @@ window.get = function (url) {
 
 var polygon_words = [];
 var found_words = [];
+var yesterday_found_words = [];
 var must_include = "";
 var message_num = 0;
+
+async function load_yesterdays_puzzle() {
+    var words_request = await get("previous/polygon.txt");
+    var words_obj = await words_request.json();
+    var yesterday_words = words_obj.words;
+    var yesterday_list = document.getElementById("yesterdaywords");
+    var yesterday_found = JSON.parse(window.localStorage.getItem("yesterdayfound"));
+    for (idx in yesterday_words) {
+        var list_item = document.createElement("li");
+        if (yesterday_found) {
+            if (yesterday_found.includes(yesterday_words[idx])) {
+                list_item.innerHTML = "<span style='color:green'>" + yesterday_words[idx] + "</span>";
+            }
+        }
+        if (!list_item.innerHTML) {
+            list_item.innerText = yesterday_words[idx];
+        }
+        yesterday_list.appendChild(list_item);
+    }
+}
+
+async function load_found_words() {
+    if (window.localStorage.getItem("found")) {
+        found_words = JSON.parse(localStorage.getItem("found"));
+    }
+    if (!polygon_words.includes(found_words[0])) {
+        found_words = [];
+        yesterday_found_words = JSON.parse(window.localStorage.getItem("found"));
+        window.localStorage.setItem("yesterdayfound", JSON.stringify(yesterday_found_words));
+        window.localStorage.removeItem("found");
+    }
+    var foundwords = document.getElementById("foundwords");
+    for (idx in found_words) {
+        if (found_words[idx] == polygon_words[0]) {
+            foundwords.innerHTML += "<span style='color:gold'> " + found_words[idx] + "</span>";
+        } else {
+            foundwords.innerHTML += " " + found_words[idx];
+        }
+        if (idx != found_words.length - 1) {
+            foundwords.innerHTML += ",";
+        }
+    }
+}
+
+async function load_score_guide() {
+    var scoreguide = document.getElementById("scoreguide");
+    var len = polygon_words.length;
+    scoreguide.innerText = `\nOk - ${Math.floor(len / 4)} words\nGood - ${Math.floor(len / 2)} words\nExcellent - ${Math.floor(len / 1.5)} words\nAurelius tier - ${Math.floor(len / 1.2)} words`;
+    scoreguide.innerHTML = "<strong>Score guide</strong>" + scoreguide.innerHTML;
+}
+
 window.onload = async function () {
-    var words_request = await get("polygon");
+    var words_request = await get("today/polygon.txt");
     var words_obj = await words_request.json();
     must_include = words_obj.must_include;
     polygon_words = words_obj.words;
+    await load_found_words();
+    await load_score_guide();
     var message = document.getElementById("message");
-    var foundwords = document.getElementById("foundwords");
-    var scoreguide = document.getElementById("scoreguide");
-    var len = polygon_words.length;
-    scoreguide.innerText = `\nOk - ${Math.floor(len / 4)} words\nGood - ${Math.floor(len / 2.2)} words\nExcellent - ${Math.floor(len / 1.5)}\nPossible - ${len}`;
-    scoreguide.innerHTML = "<strong>Score guide</strong>" + scoreguide.innerHTML;
     var form = document.getElementById("polygonform");
+    var foundwords = document.getElementById("foundwords");
     async function checkAnswer(event) {
         event.preventDefault();
         var form_data = new FormData(form);
-        var word = form_data.get("word");
+        var word = form_data.get("word").toLocaleLowerCase();
         if (message.classList.contains("fade-out")) {
             message.classList.remove("fade-out");
             message.classList.add("not-fade");
@@ -39,18 +88,18 @@ window.onload = async function () {
         } else if (polygon_words.includes(word) && !found_words.includes(word)) {
             found_words.push(word);
             if (foundwords.innerText != "Found words:") {
-                console.log(foundwords.innerText);
-                foundwords.innerText += ",";
+                foundwords.innerHTML += ",";
             }
-            foundwords.innerText += " " + word;
             if (word == polygon_words[0]) {
                 message.style.color = "gold";
                 message.innerText = "Congratulations you found the longest word!";
+                foundwords.innerHTML += "<span style='color:gold'> " + word + "</span>";
             } else {
                 message.style.color = "green";
                 message.innerText = "Well done!";
+                foundwords.innerHTML += " " + word;
             }
-
+            window.localStorage.setItem("found", JSON.stringify(found_words));
         } else {
             if (found_words.includes(word)) {
                 message.style.color = "orange";
@@ -68,5 +117,6 @@ window.onload = async function () {
         form.reset();
     }
     form.onsubmit = checkAnswer;
+    await load_yesterdays_puzzle();
 };
 
