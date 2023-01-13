@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
+var os = require('os');
 const app = express();
 const cors = require("cors");
 
@@ -33,7 +34,7 @@ app.get('/today/polygon.png', function (req, res) {
 
 app.get('/polygon', function (req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    var words = fs.readFileSync("./today/polygon.txt").toString().split("\r\n").slice(1);
+    var words = fs.readFileSync("./today/polygon.txt").toString().split(os.EOL).slice(1);
     res.end(JSON.stringify({ words: words }));
 });
 
