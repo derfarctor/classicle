@@ -1,1 +1,1 @@
-python3 scripts/polygon.py ${PWD}/resources ${PWD}/today ${PWD}/previous
+python3 ${PWD}/scripts/polygon.py ${PWD}/resources ${PWD}/today ${PWD}/previous
