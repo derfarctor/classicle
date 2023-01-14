@@ -13,6 +13,11 @@ p {
     color: white;
 }
 
+form {
+    margin: 0 auto;
+    width: 250px;
+}
+
 .fade-out {
     animation: fadeOut ease 3s 2s forwards;
 }

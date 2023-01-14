@@ -76,7 +76,7 @@ window.onload = async function () {
     async function checkAnswer(event) {
         event.preventDefault();
         var form_data = new FormData(form);
-        var word = form_data.get("word").toLocaleLowerCase();
+        var word = form_data.get("word").toLowerCase().trim();
         if (message.classList.contains("fade-out")) {
             message.classList.remove("fade-out");
             message.classList.add("not-fade");
