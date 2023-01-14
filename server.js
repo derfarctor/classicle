@@ -37,8 +37,18 @@ app.get('/today/polygon.png', function (req, res) {
 
 app.get('/today/polygon.txt', function (req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    var words = fs.readFileSync("./today/polygon.txt").toString().split(os.EOL);
-    res.end(JSON.stringify({ words: words.slice(1), must_include: words[0] }));
+    var lines = fs.readFileSync("./today/polygon.txt").toString().split(os.EOL);
+    var must_include = lines[0];
+    lines = lines.slice(1);
+    var words = [];
+    var definitions = [];
+    for (idx in lines) {
+        var parts = lines[idx].split(": ")
+        words.push(parts[0])
+        definitions.push(parts[1])
+
+    }
+    res.end(JSON.stringify({ words, definitions, must_include }));
 });
 
 app.get('/previous/polygon.png', function (req, res) {
@@ -50,13 +60,16 @@ app.get('/previous/polygon.png', function (req, res) {
 });
 
 app.get('/previous/polygon.txt', function (req, res) {
-    try {
-        var words = fs.readFileSync("." + get_previous_filename(".txt")).toString().split(os.EOL);
-    } catch (error) {
-        console.log(error);
-        var words = ["", `An error was encountered: ${error}`];
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    var lines = fs.readFileSync("." + get_previous_filename(".txt")).toString().split(os.EOL).slice(1);
+    var words = [];
+    var definitions = [];
+    for (idx in lines) {
+        var parts = lines[idx].split(": ")
+        words.push(parts[0])
+        definitions.push(parts[1])
     }
-    res.end(JSON.stringify({ words: words.slice(1) }));
+    res.end(JSON.stringify({ words, definitions }));
 });
 
 

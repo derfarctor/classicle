@@ -12,6 +12,7 @@ today_dir = sys.argv[2]
 previous_dir = sys.argv[3]
 words = []
 long_words = []
+definition = {}
 
 
 def is_sub_word(word, long_word, min_length):
@@ -41,6 +42,7 @@ def generate_polygon(min_length=3):
     with open(os.path.join(resources_dir, "latinwords.txt")) as file:
         for line in file:
             parts = line.split(":")
+            definition[parts[0]] = parts[1].rstrip()
             words.append(parts[0])
             if len(parts[0]) > 6 and len(parts[0]) < 9:
                 long_words.append(parts[0])
@@ -61,18 +63,18 @@ def generate_polygon(min_length=3):
     sub_words.sort(key=lambda s: len(s), reverse=True)
     with open(os.path.join(today_dir, "polygon.txt"), "w", encoding="utf-8") as file:
         file.write(most_frequent[1] + "\n")
-        file.write(random_long + "\n")
+        file.write(random_long + f":{definition[word]}\n")
         for word in sub_words:
-            file.write(word)
+            file.write(word + f":{definition[word]}")
             if word != sub_words[-1]:
                 file.write("\n")
     now = datetime.now()
     previous_polygon_name = f"polygon-{now.day}-{now.month}-{now.year}"
     with open(os.path.join(previous_dir, previous_polygon_name+".txt"), "w", encoding="utf-8") as file:
         file.write(most_frequent[1] + "\n")
-        file.write(random_long + "\n")
+        file.write(random_long + f":{definition[word]}\n")
         for word in sub_words:
-            file.write(word)
+            file.write(word + f":{definition[word]}")
             if word != sub_words[-1]:
                 file.write("\n")
     sides = len(random_long) - 1

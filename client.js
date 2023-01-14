@@ -12,22 +12,26 @@ var found_words = [];
 var yesterday_found_words = [];
 var must_include = "";
 var message_num = 0;
+var dictionary = new Map();
 
 async function load_yesterdays_puzzle() {
-    var words_request = await get("previous/polygon.txt");
-    var words_obj = await words_request.json();
-    var yesterday_words = words_obj.words;
+    var yesterday_request = await get("previous/polygon.txt");
+    var yesterday_obj = await yesterday_request.json();
+    var yesterday_words = yesterday_obj.words;
+    for (idx in yesterday_words) {
+        dictionary.set(yesterday_words[idx], yesterday_obj.definitions[idx]);
+    }
     var yesterday_list = document.getElementById("yesterdaywords");
     var yesterday_found = JSON.parse(window.localStorage.getItem("yesterdayfound"));
     for (idx in yesterday_words) {
         var list_item = document.createElement("li");
         if (yesterday_found) {
             if (yesterday_found.includes(yesterday_words[idx])) {
-                list_item.innerHTML = "<span style='color:green'>" + yesterday_words[idx] + "</span>";
+                list_item.innerHTML = `<span title="${dictionary.get(yesterday_words[idx])}" ontouchstart="show_def(this)" style="color:green">${yesterday_words[idx]}</span>`;
             }
         }
         if (!list_item.innerHTML) {
-            list_item.innerText = yesterday_words[idx];
+            list_item.innerHTML = `<span title="${dictionary.get(yesterday_words[idx])}" ontouchstart="show_def(this)">${yesterday_words[idx]}</span>`;
         }
         yesterday_list.appendChild(list_item);
     }
@@ -46,9 +50,9 @@ async function load_found_words() {
     var foundwords = document.getElementById("foundwords");
     for (idx in found_words) {
         if (found_words[idx] == polygon_words[0]) {
-            foundwords.innerHTML += "<span style='color:gold'> " + found_words[idx] + "</span>";
+            foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" ontouchstart="show_def(this)" style="color:gold"> ${found_words[idx]}</span>`;
         } else {
-            foundwords.innerHTML += " " + found_words[idx];
+            foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" ontouchstart="show_def(this)"> ${found_words[idx]}</span>`;
         }
         if (idx != found_words.length - 1) {
             foundwords.innerHTML += ",";
@@ -63,11 +67,19 @@ async function load_score_guide() {
     scoreguide.innerHTML = "<strong>Score guide</strong>" + scoreguide.innerHTML;
 }
 
+async function show_def(x) {
+    var definition = `${x.innerText.trim()}\n\n${dictionary.get(x.innerText.trim())}`;
+    alert(definition);
+}
+
 window.onload = async function () {
-    var words_request = await get("today/polygon.txt");
-    var words_obj = await words_request.json();
-    must_include = words_obj.must_include;
-    polygon_words = words_obj.words;
+    var today_request = await get("today/polygon.txt");
+    var today_obj = await today_request.json();
+    must_include = today_obj.must_include;
+    polygon_words = today_obj.words;
+    for (idx in polygon_words) {
+        dictionary.set(polygon_words[idx], today_obj.definitions[idx]);
+    }
     await load_found_words();
     await load_score_guide();
     var message = document.getElementById("message");
@@ -93,11 +105,11 @@ window.onload = async function () {
             if (word == polygon_words[0]) {
                 message.style.color = "gold";
                 message.innerText = "Congratulations you found the longest word!";
-                foundwords.innerHTML += "<span style='color:gold'> " + word + "</span>";
+                foundwords.innerHTML += `<span title="${dictionary.get(word)}" ontouchstart="show_def(this)" style="color:gold"> ${word}</span>`;
             } else {
                 message.style.color = "green";
                 message.innerText = "Well done!";
-                foundwords.innerHTML += " " + word;
+                foundwords.innerHTML += `<span title="${dictionary.get(word)}" ontouchstart="show_def(this)"> ${word}</span>`;
             }
             window.localStorage.setItem("found", JSON.stringify(found_words));
         } else {
