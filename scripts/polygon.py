@@ -111,7 +111,6 @@ def generate_polygon(min_length=3):
               most_frequent[1], anchor="md", font=font, fill="#121213")
     img.save(os.path.join(today_dir, "polygon.png"))
     img.save(os.path.join(previous_dir, previous_polygon_name+".png"))
-    print("Saved")
 
 
 generate_polygon(3)
