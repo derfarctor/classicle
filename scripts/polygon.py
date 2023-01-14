@@ -102,15 +102,16 @@ def generate_polygon(min_length=3):
     font = ImageFont.truetype(os.path.join(
         resources_dir, "robotomono.ttf"), int(size/6))
     for i in range(len(outer_letters)):
-        _, h = font.getbbox(outer_letters[i])
+        l, t, r, b = font.getbbox(outer_letters[i])
         letter_points[i] = (letter_points[i][0],
-                            letter_points[i][1] + h/2)
+                            letter_points[i][1] + b/2)
         draw.text(letter_points[i], outer_letters[i], anchor="md", font=font)
-    w, h = font.getbbox(most_frequent[1])
-    draw.text((size/2, size/2+h/2),
+    l, t, r, b = font.getbbox(most_frequent[1])
+    draw.text((size/2, size/2+b/2),
               most_frequent[1], anchor="md", font=font, fill="#121213")
     img.save(os.path.join(today_dir, "polygon.png"))
     img.save(os.path.join(previous_dir, previous_polygon_name+".png"))
+    print("Saved")
 
 
 generate_polygon(3)

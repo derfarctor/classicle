@@ -1,1 +1,2 @@
-python3 ${PWD}/scripts/polygon.py ${PWD}/resources ${PWD}/today ${PWD}/previous
+BASEDIR=$(dirname "$0")
+python3 ${BASEDIR}/scripts/polygon.py ${BASEDIR}/resources ${BASEDIR}/today ${BASEDIR}/previous
