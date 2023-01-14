@@ -83,7 +83,7 @@ window.onload = async function () {
         }
         message_num++;
         if (!word.includes(must_include)) {
-            message.innerText = `The word must include the center letter '${must_include}'!`;
+            message.innerText = `'${must_include}' must be included!`;
             message.style.color = "red";
         } else if (polygon_words.includes(word) && !found_words.includes(word)) {
             found_words.push(word);

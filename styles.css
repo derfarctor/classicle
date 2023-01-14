@@ -9,6 +9,10 @@ h1 {
     color: white;
 }
 
+.centered {
+    text-align: center;
+}
+
 p {
     color: white;
 }
