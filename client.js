@@ -37,7 +37,7 @@ async function load_found_words() {
     if (window.localStorage.getItem("found")) {
         found_words = JSON.parse(localStorage.getItem("found"));
     }
-    if (!polygon_words.includes(found_words[0])) {
+    if (!polygon_words.includes(found_words[0]) && found_words.length > 0) {
         found_words = [];
         yesterday_found_words = JSON.parse(window.localStorage.getItem("found"));
         window.localStorage.setItem("yesterdayfound", JSON.stringify(yesterday_found_words));
