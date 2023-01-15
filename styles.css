@@ -13,8 +13,29 @@ h1 {
     text-align: center;
 }
 
+@media only screen and (max-width: 600px) {
+    #redactus {
+        font-size: x-small;
+    }
+}
+
 p {
     color: white;
+}
+
+.footer {
+    background-color: gray;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.fixed {
+    bottom: 0;
+    position: fixed;
 }
 
 form {
