@@ -13,6 +13,10 @@ h1 {
     text-align: center;
 }
 
+#numletters {
+    text-decoration: underline;
+}
+
 p {
     color: white;
 }
