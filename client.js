@@ -1,5 +1,5 @@
 const site_url = window.location.href;
-const long_and_min_lengths = { 7: "three", 8: "four", 9: "four" } // Must be the same as in polygon.py
+const long_and_min_lengths = { 7: [3, "three"], 8: [4, "four"], 9: [4, "four"] } // Must be the same as in polygon.py
 
 window.post = function (url, data) {
     return fetch(site_url + url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
@@ -93,7 +93,7 @@ window.onload = async function () {
     must_include = today_obj.must_include;
     polygon_words = today_obj.words;
     var num_letters = document.getElementById("numletters");
-    num_letters.innerText = long_and_min_lengths[polygon_words[0].length];
+    num_letters.innerText = long_and_min_lengths[polygon_words[0].length][1];
     for (idx in polygon_words) {
         dictionary.set(polygon_words[idx], format_def(today_obj.definitions[idx]));
     }
@@ -113,6 +113,9 @@ window.onload = async function () {
         message_num++;
         if (!word.includes(must_include)) {
             message.innerText = `'${must_include}' must be included!`;
+            message.style.color = "red";
+        } else if (word.length < long_and_min_lengths[polygon_words[0].length][0]) {
+            message.innerText = `Today words must be ${long_and_min_lengths[polygon_words[0].length][0]} letters or more!`;
             message.style.color = "red";
         } else if (polygon_words.includes(word) && !found_words.includes(word)) {
             found_words.push(word);
