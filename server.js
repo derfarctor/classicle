@@ -17,6 +17,7 @@ const corsOptions = {
     credentials: true,
     optionSuccessStatus: 200,
 }
+app.use('/favicon', express.static(__dirname + '/favicon', { extensions: ['json'] }))
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
@@ -43,8 +44,9 @@ app.get('/today/polygon.txt', function (req, res) {
     var words = [];
     var definitions = [];
     for (idx in lines) {
-        var word = lines[idx].substring(0, lines[idx].indexOf(':'))
-        var definition = lines[idx].substring(lines[idx].indexOf(':') + 1)
+        var first_colon = lines[idx].indexOf(':');
+        var word = lines[idx].substring(0, first_colon);
+        var definition = lines[idx].substring(first_colon + 1);
         words.push(word);
         definitions.push(JSON.parse(definition.trim()));
     }
@@ -66,8 +68,9 @@ app.get('/previous/polygon.txt', function (req, res) {
     var words = [];
     var definitions = [];
     for (idx in lines) {
-        var word = lines[idx].substring(0, lines[idx].indexOf(':'))
-        var definition = lines[idx].substring(lines[idx].indexOf(':') + 1)
+        var first_colon = lines[idx].indexOf(':');
+        var word = lines[idx].substring(0, first_colon);
+        var definition = lines[idx].substring(first_colon + 1);
         words.push(word);
         definitions.push(JSON.parse(definition.trim()));
     }
