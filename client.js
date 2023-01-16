@@ -1,4 +1,6 @@
 const site_url = window.location.href;
+const long_and_min_lengths = { 7: "three", 8: "four", 9: "four" } // Must be the same as in polygon.py
+
 window.post = function (url, data) {
     return fetch(site_url + url, { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 }
@@ -19,7 +21,7 @@ async function load_yesterdays_puzzle() {
     var yesterday_obj = await yesterday_request.json();
     var yesterday_words = yesterday_obj.words;
     for (idx in yesterday_words) {
-        dictionary.set(yesterday_words[idx], yesterday_obj.definitions[idx]);
+        dictionary.set(yesterday_words[idx], format_def(yesterday_obj.definitions[idx]));
     }
     var yesterday_list = document.getElementById("yesterdaywords");
     var yesterday_found = JSON.parse(window.localStorage.getItem("yesterdayfound"));
@@ -67,6 +69,19 @@ async function load_score_guide() {
     scoreguide.innerHTML = "<strong>Score guide</strong>" + scoreguide.innerHTML;
 }
 
+function format_def(definition) {
+    var res = ""
+    for (e_idx in definition) {
+        var entry = definition[e_idx];
+        res += `(${entry["type"]})\n`
+        for (t_idx in entry["translations"]) {
+            res += `${Number(t_idx) + 1}: ${entry["translations"][t_idx]}\n`
+        }
+        res += "\n"
+    }
+    return res
+}
+
 async function show_def(x) {
     var definition = `${x.innerText.trim()}\n\n${dictionary.get(x.innerText.trim())}`;
     alert(definition);
@@ -77,8 +92,10 @@ window.onload = async function () {
     var today_obj = await today_request.json();
     must_include = today_obj.must_include;
     polygon_words = today_obj.words;
+    var num_letters = document.getElementById("numletters");
+    num_letters.innerText = long_and_min_lengths[polygon_words[0].length];
     for (idx in polygon_words) {
-        dictionary.set(polygon_words[idx], today_obj.definitions[idx]);
+        dictionary.set(polygon_words[idx], format_def(today_obj.definitions[idx]));
     }
     await load_found_words();
     await load_score_guide();

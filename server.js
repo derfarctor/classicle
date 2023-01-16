@@ -43,10 +43,10 @@ app.get('/today/polygon.txt', function (req, res) {
     var words = [];
     var definitions = [];
     for (idx in lines) {
-        var parts = lines[idx].split(": ")
-        words.push(parts[0])
-        definitions.push(parts[1])
-
+        var word = lines[idx].substring(0, lines[idx].indexOf(':'))
+        var definition = lines[idx].substring(lines[idx].indexOf(':') + 1)
+        words.push(word);
+        definitions.push(JSON.parse(definition.trim()));
     }
     res.end(JSON.stringify({ words, definitions, must_include }));
 });
@@ -61,13 +61,15 @@ app.get('/previous/polygon.png', function (req, res) {
 
 app.get('/previous/polygon.txt', function (req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    var lines = fs.readFileSync("." + get_previous_filename(".txt")).toString().split(os.EOL).slice(1);
+    var lines = fs.readFileSync("." + get_previous_filename(".txt")).toString().split(os.EOL);
+    lines = lines.slice(1);
     var words = [];
     var definitions = [];
     for (idx in lines) {
-        var parts = lines[idx].split(": ")
-        words.push(parts[0])
-        definitions.push(parts[1])
+        var word = lines[idx].substring(0, lines[idx].indexOf(':'))
+        var definition = lines[idx].substring(lines[idx].indexOf(':') + 1)
+        words.push(word);
+        definitions.push(JSON.parse(definition.trim()));
     }
     res.end(JSON.stringify({ words, definitions }));
 });
