@@ -29,11 +29,11 @@ async function load_yesterdays_puzzle() {
         var list_item = document.createElement("li");
         if (yesterday_found) {
             if (yesterday_found.includes(yesterday_words[idx])) {
-                list_item.innerHTML = `<span title="${dictionary.get(yesterday_words[idx])}" ontouchstart="show_def(this)" style="color:green">${yesterday_words[idx]}</span>`;
+                list_item.innerHTML = `<span title="${dictionary.get(yesterday_words[idx])}" onclick="show_def(this)" style="color:green">${yesterday_words[idx]}</span>`;
             }
         }
         if (!list_item.innerHTML) {
-            list_item.innerHTML = `<span title="${dictionary.get(yesterday_words[idx])}" ontouchstart="show_def(this)">${yesterday_words[idx]}</span>`;
+            list_item.innerHTML = `<span title="${dictionary.get(yesterday_words[idx])}" onclick="show_def(this)">${yesterday_words[idx]}</span>`;
         }
         yesterday_list.appendChild(list_item);
     }
@@ -52,9 +52,9 @@ async function load_found_words() {
     var foundwords = document.getElementById("foundwords");
     for (idx in found_words) {
         if (found_words[idx] == polygon_words[0]) {
-            foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" ontouchstart="show_def(this)" style="color:gold"> ${found_words[idx]}</span>`;
+            foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" onclick="show_def(this)" style="color:gold"> ${found_words[idx]}</span>`;
         } else {
-            foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" ontouchstart="show_def(this)"> ${found_words[idx]}</span>`;
+            foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" onclick="show_def(this)"> ${found_words[idx]}</span>`;
         }
         if (idx != found_words.length - 1) {
             foundwords.innerHTML += ",";
@@ -125,11 +125,11 @@ window.onload = async function () {
             if (word == polygon_words[0]) {
                 message.style.color = "gold";
                 message.innerText = "Congratulations you found the longest word!";
-                foundwords.innerHTML += `<span title="${dictionary.get(word)}" ontouchstart="show_def(this)" style="color:gold"> ${word}</span>`;
+                foundwords.innerHTML += `<span title="${dictionary.get(word)}" onclick="show_def(this)" style="color:gold"> ${word}</span>`;
             } else {
                 message.style.color = "green";
                 message.innerText = "Well done!";
-                foundwords.innerHTML += `<span title="${dictionary.get(word)}" ontouchstart="show_def(this)"> ${word}</span>`;
+                foundwords.innerHTML += `<span title="${dictionary.get(word)}" onclick="show_def(this)"> ${word}</span>`;
             }
             window.localStorage.setItem("found", JSON.stringify(found_words));
         } else {
