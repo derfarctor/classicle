@@ -15,10 +15,10 @@ previous_dir = sys.argv[3]
 all_words = {}
 long_words = {}
 
-# latinwordlist-singinf.json - singular nouns, infinitives only, no comparatives or superlatives
-# latinwordlist-sing.json - singular nouns, no comparatives or superlatives
-# latinwordlist.json - everything
-WORD_LIST = "latinwordlist-sing.json"
+# latinwordlist-singinf-ji.json - singular nouns, infinitives only, no comparatives or superlatives
+# latinwordlist-sing-ji.json - singular nouns, no comparatives or superlatives
+# latinwordlist-ji.json - everything
+WORD_LIST = "latinwordlist-sing-ji.json"
 
 min_sub_words = 15
 max_sub_words = 40
