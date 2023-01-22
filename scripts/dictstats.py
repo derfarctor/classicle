@@ -2,7 +2,7 @@ import json
 
 types = {}
 frequencies = {}
-with open("latinwordlist.json", "r", encoding="utf-8") as infile:
+with open("latinwordlist-sing.json", "r", encoding="utf-8") as infile:
     main_words = json.load(infile)
     for word in main_words:
         for entry in main_words[word]:

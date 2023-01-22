@@ -28,7 +28,7 @@ max_sub_words = 40
 long_and_min_lengths = {7: 3, 8: 4, 9: 4}
 
 sub_frequencies = ["Frequent, top 2000+ words", "Very frequent, in all Elementry Latin books, top 1000+ words",
-                   "2 or 3 citations", "For Dictionary, in top 10,000 words", "For Dictionary, in top 20,000 words"]
+                    "For Dictionary, in top 10,000 words", "For Dictionary, in top 20,000 words"]
 long_frequencies = ["Frequent, top 2000+ words", "Very frequent, in all Elementry Latin books, top 1000+ words",
                     "For Dictionary, in top 10,000 words"]
 
