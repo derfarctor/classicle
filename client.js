@@ -51,7 +51,7 @@ async function load_found_words() {
     }
     var foundwords = document.getElementById("foundwords");
     for (idx in found_words) {
-        if (found_words[idx] == polygon_words[0]) {
+        if (found_words[idx].length == polygon_words[0].length) {
             foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" onclick="show_def(this)" style="color:gold"> ${found_words[idx]}</span>`;
         } else {
             foundwords.innerHTML += `<span title="${dictionary.get(found_words[idx])}" onclick="show_def(this)"> ${found_words[idx]}</span>`;
@@ -122,7 +122,7 @@ window.onload = async function () {
             if (foundwords.innerText != "Found words:") {
                 foundwords.innerHTML += ",";
             }
-            if (word == polygon_words[0]) {
+            if (word.length == polygon_words[0].length) {
                 message.style.color = "gold";
                 message.innerText = "Congratulations you found the longest word!";
                 foundwords.innerHTML += `<span title="${dictionary.get(word)}" onclick="show_def(this)" style="color:gold"> ${word}</span>`;
