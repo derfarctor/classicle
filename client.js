@@ -60,15 +60,24 @@ async function load_found_words() {
             foundwords.innerHTML += ",";
         }
     }
+    update_num_found();
 }
 
 async function load_score_guide() {
     var scoreguide = document.getElementById("scoreguide");
     var len = polygon_words.length;
-    scoreguide.innerText = `\nOk - ${Math.floor(len / 4)} words\nGood - ${Math.floor(len / 2)} words\nExcellent - ${Math.floor(len / 1.5)} words\nAurelius tier - ${Math.floor(len / 1.2)} words`;
+    scoreguide.innerText = `\nOk - ${Math.floor(len / 4)} words\nGood - ${Math.floor(len / 2)} words\nExcellent - ${Math.floor(len / 1.5)} words`;
     scoreguide.innerHTML = "<strong>Score guide</strong>" + scoreguide.innerHTML;
 }
 
+function update_num_found() {
+    if (found_words.length > 0) {
+        num_found_container = document.getElementById("num-found-container");
+        num_found_container.classList.remove("hidden");
+        num_found = document.getElementById("num-found");
+        num_found.innerText = found_words.length;
+    }
+}
 function format_def(definition) {
     var res = ""
     for (e_idx in definition) {
@@ -119,7 +128,7 @@ window.onload = async function () {
             message.style.color = "red";
         } else if (polygon_words.includes(word) && !found_words.includes(word)) {
             found_words.push(word);
-            if (foundwords.innerText != "Found words:") {
+            if (foundwords.innerText.slice(-1) != ":") {
                 foundwords.innerHTML += ",";
             }
             if (word.length == polygon_words[0].length) {
@@ -147,6 +156,7 @@ window.onload = async function () {
         var current_num = message_num;
         setTimeout(() => { if (current_num == message_num) { message.innerText = ""; } }, 5000, current_num);
         form.reset();
+        update_num_found();
     }
     form.onsubmit = checkAnswer;
     await load_yesterdays_puzzle();
