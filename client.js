@@ -66,7 +66,7 @@ async function load_found_words() {
 async function load_score_guide() {
     var scoreguide = document.getElementById("scoreguide");
     var len = polygon_words.length;
-    scoreguide.innerText = `\nOk - ${Math.floor(len / 4)} words\nGood - ${Math.floor(len / 2)} words\nExcellent - ${Math.floor(len / 1.5)} words`;
+    scoreguide.innerText = `\nOk - ${Math.floor(len / 4)} words\nGood - ${Math.floor(len / 2)} words\nExcellent - ${Math.floor(len / 1.5)} words\nAurelius tier - ${Math.floor(len / 1.25)} words`;
     scoreguide.innerHTML = "<strong>Score guide</strong>" + scoreguide.innerHTML;
 }
 
