@@ -40,7 +40,7 @@ async function load_yesterdays_puzzle() {
 }
 
 
-async function check_new_day() {
+function check_new_day() {
     if (found_words.length > 0) {
         for (idx in found_words) {
             if(!polygon_words.includes(found_words[idx])) {
