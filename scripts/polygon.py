@@ -15,7 +15,9 @@ previous_dir = sys.argv[3]
 all_words = {}
 long_words = {}
 
+
 # latinwordlist-singinf-ji.json - singular nouns, infinitives only, no comparatives or superlatives
+# latinwordlist-sing-ji-nopn.json - singular nouns, no comparatives or superlatives, no proper nouns
 # latinwordlist-sing-ji.json - singular nouns, no comparatives or superlatives
 # latinwordlist-ji.json - everything
 WORD_LIST = "latinwordlist-sing-ji-nopn.json"
